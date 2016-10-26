@@ -19,7 +19,7 @@ public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
     private int mCount = 1;
     private RecyclerViewAdapter mRecyclerViewAdapter;
-    private RecyclerView mRecyclerView;
+    //private RecyclerView mRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,9 +32,9 @@ public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.
         super.onViewCreated(view, savedInstanceState);
         mPullLoadMoreRecyclerView = (PullLoadMoreRecyclerView) view.findViewById(R.id.pullLoadMoreRecyclerView);
         //获取mRecyclerView对象
-        mRecyclerView = mPullLoadMoreRecyclerView.getRecyclerView();
+        //mRecyclerView = mPullLoadMoreRecyclerView.getRecyclerView();
         //代码设置scrollbar无效？未解决！
-        mRecyclerView.setVerticalScrollBarEnabled(true);
+        //mRecyclerView.setVerticalScrollBarEnabled(true);
         //设置下拉刷新是否可见
         //mPullLoadMoreRecyclerView.setRefreshing(true);
         //设置是否可以下拉刷新

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowTitleEnabled(true);
@@ -42,10 +43,13 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         // 设置ViewPager的数据等
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//适合很多tab
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);//tab均分,适合少的tab
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//适合很多tab
+        //tabLayout.setTabMode(TabLayout.MODE_FIXED);//tab均分,适合少的tab
     }
 
+    /**
+     * 编写一个适配器的类，管理Fragment
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -75,9 +79,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 创建一个适配器实例，添加Fragment
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
 
         firstFragment = new FirstFragment();
         Bundle data = new Bundle();
@@ -97,6 +104,44 @@ public class MainActivity extends AppCompatActivity {
         data.putInt("id", 2);
         thirdFragment.setArguments(data);
         adapter.addFrag(thirdFragment, "Third");
+
+        firstFragment = new FirstFragment();
+        data = new Bundle();
+        data.putInt("id", 0);
+        firstFragment.setArguments(data);
+        adapter.addFrag(firstFragment, "Frist1");
+
+        secondFragment = new SecondFragment();
+        data = new Bundle();
+        data.putInt("id", 1);
+        secondFragment.setArguments(data);
+        adapter.addFrag(secondFragment, "Second1");
+
+
+        thirdFragment = new ThirdFragment();
+        data = new Bundle();
+        data.putInt("id", 2);
+        thirdFragment.setArguments(data);
+        adapter.addFrag(thirdFragment, "Third1");
+
+        firstFragment = new FirstFragment();
+        data = new Bundle();
+        data.putInt("id", 0);
+        firstFragment.setArguments(data);
+        adapter.addFrag(firstFragment, "Frist2");
+
+        secondFragment = new SecondFragment();
+        data = new Bundle();
+        data.putInt("id", 1);
+        secondFragment.setArguments(data);
+        adapter.addFrag(secondFragment, "Second2");
+
+
+        thirdFragment = new ThirdFragment();
+        data = new Bundle();
+        data.putInt("id", 2);
+        thirdFragment.setArguments(data);
+        adapter.addFrag(thirdFragment, "Third2");
 
         viewPager.setAdapter(adapter);
 
