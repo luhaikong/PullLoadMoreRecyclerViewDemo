@@ -3,10 +3,10 @@ package com.lhk.library;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 
-public class PullLoadOnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+public class PullRefreshOnRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
 
-    public PullLoadOnRefreshListener(PullLoadMoreRecyclerView pullLoadMoreRecyclerView) {
+    public PullRefreshOnRefreshListener(PullLoadMoreRecyclerView pullLoadMoreRecyclerView) {
         this.mPullLoadMoreRecyclerView = pullLoadMoreRecyclerView;
     }
 

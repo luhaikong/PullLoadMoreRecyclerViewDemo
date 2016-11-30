@@ -35,7 +35,7 @@ public class SecondFragment extends Fragment {
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity());
         mPullLoadMoreRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-        mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreListener());
+        mPullLoadMoreRecyclerView.setOnPullActionListener(new MyPullActionListener());
         getData();
     }
 
@@ -44,7 +44,7 @@ public class SecondFragment extends Fragment {
             @Override
             public void run() {
                 mRecyclerViewAdapter.addAllData(setList());
-                mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+                mPullLoadMoreRecyclerView.setPullActionCompleted();
             }
         }, 1000);
     }
@@ -59,7 +59,7 @@ public class SecondFragment extends Fragment {
 
     }
 
-    class PullLoadMoreListener implements PullLoadMoreRecyclerView.PullLoadMoreListener {
+    class MyPullActionListener implements PullLoadMoreRecyclerView.PullActionListener {
         @Override
         public void onRefresh() {
             setRefresh();

@@ -41,13 +41,8 @@ public class PullLoadOnScrollListener extends RecyclerView.OnScrollListener {
             lastItem = findMax(lastPositions);
             firstItem = staggeredGridLayoutManager.findFirstVisibleItemPositions(lastPositions)[0];
         }
-        if (firstItem == 0 || firstItem == RecyclerView.NO_POSITION) {
-            if (mPullLoadMoreRecyclerView.getPullRefreshEnable())
-                mPullLoadMoreRecyclerView.setSwipeRefreshEnable(true);
-        } else {
-            mPullLoadMoreRecyclerView.setSwipeRefreshEnable(false);
-        }
-        if (mPullLoadMoreRecyclerView.getPushRefreshEnable()
+
+        if (mPullLoadMoreRecyclerView.isPullLoadMoreEnable()
                 && !mPullLoadMoreRecyclerView.isRefresh()
                 && mPullLoadMoreRecyclerView.isHasMore()
                 && (lastItem == totalItemCount - 1)

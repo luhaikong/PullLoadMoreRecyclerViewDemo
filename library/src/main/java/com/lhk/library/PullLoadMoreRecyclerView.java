@@ -23,12 +23,13 @@ import android.widget.TextView;
 public class PullLoadMoreRecyclerView extends LinearLayout {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private PullLoadMoreListener mPullLoadMoreListener;
+    private PullActionListener mPullActionListener;
     private boolean hasMore = true;
     private boolean isRefresh = false;
     private boolean isLoadMore = false;
     private boolean pullRefreshEnable = true;//是否支持下拉刷新
-    private boolean pushRefreshEnable = true;//是否支持上划加载
+    private boolean pullLoadMoreEnable = true;//是否支持上划加载
+
     private View mFooterView;
     private FrameLayout mEmptyViewContainer;
     private Context mContext;
@@ -53,7 +54,7 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_dark
                 , android.R.color.holo_blue_dark
                 , android.R.color.holo_orange_dark);
-        mSwipeRefreshLayout.setOnRefreshListener(new PullLoadOnRefreshListener(this));
+        mSwipeRefreshLayout.setOnRefreshListener(new PullRefreshOnRefreshListener(this));
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setVerticalScrollBarEnabled(true);
@@ -185,7 +186,7 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
     }
 
     public void setPullRefreshEnable(boolean enable) {
-        pullRefreshEnable = enable;
+        this.pullRefreshEnable = enable;
         setSwipeRefreshEnable(enable);
     }
 
@@ -193,11 +194,11 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
         return pullRefreshEnable;
     }
 
-    public void setSwipeRefreshEnable(boolean enable) {
+    private void setSwipeRefreshEnable(boolean enable) {
         mSwipeRefreshLayout.setEnabled(enable);
     }
 
-    public boolean getSwipeRefreshEnable() {
+    private boolean getSwipeRefreshEnable() {
         return mSwipeRefreshLayout.isEnabled();
     }
 
@@ -231,12 +232,12 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
         }
     }
 
-    public boolean getPushRefreshEnable() {
-        return pushRefreshEnable;
+    public boolean isPullLoadMoreEnable() {
+        return pullLoadMoreEnable;
     }
 
-    public void setPushRefreshEnable(boolean pushRefreshEnable) {
-        this.pushRefreshEnable = pushRefreshEnable;
+    public void setPullLoadMoreEnable(boolean pullLoadMoreEnable) {
+        this.pullLoadMoreEnable = pullLoadMoreEnable;
     }
 
     public LinearLayout getFooterViewLayout() {
@@ -260,13 +261,13 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
     }
 
     public void refresh() {
-        if (mPullLoadMoreListener != null) {
-            mPullLoadMoreListener.onRefresh();
+        if (mPullActionListener != null && isRefresh && !isLoadMore) {
+            mPullActionListener.onRefresh();
         }
     }
 
     public void loadMore() {
-        if (mPullLoadMoreListener != null && hasMore) {
+        if (mPullActionListener != null && hasMore && isLoadMore && !isRefresh) {
             mFooterView.animate()
                     .translationY(0)
                     .setDuration(300)
@@ -279,25 +280,28 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
                     })
                     .start();
             invalidate();
-            mPullLoadMoreListener.onLoadMore();
+            mPullActionListener.onLoadMore();
         }
     }
 
+    public void setPullActionCompleted() {
+        if (isRefresh){
+            isRefresh = false;
+            setRefreshing(false);
+        }
 
-    public void setPullLoadMoreCompleted() {
-        isRefresh = false;
-        setRefreshing(false);
-
-        isLoadMore = false;
-        mFooterView.animate()
-                .translationY(mFooterView.getHeight())
-                .setDuration(300)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
+        if (isLoadMore){
+            isLoadMore = false;
+            mFooterView.animate()
+                    .translationY(mFooterView.getHeight())
+                    .setDuration(300)
+                    .setInterpolator(new AccelerateDecelerateInterpolator())
+                    .start();
+        }
     }
 
-    public void setOnPullLoadMoreListener(PullLoadMoreListener listener) {
-        mPullLoadMoreListener = listener;
+    public void setOnPullActionListener(PullActionListener listener) {
+        this.mPullActionListener = listener;
     }
 
     public boolean isLoadMore() {
@@ -314,6 +318,7 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
 
     public void setIsRefresh(boolean isRefresh) {
         this.isRefresh = isRefresh;
+        setRefreshing(isRefresh);
     }
 
     public boolean isHasMore() {
@@ -324,7 +329,7 @@ public class PullLoadMoreRecyclerView extends LinearLayout {
         this.hasMore = hasMore;
     }
 
-    public interface PullLoadMoreListener {
+    public interface PullActionListener {
         void onRefresh();
 
         void onLoadMore();

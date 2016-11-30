@@ -14,7 +14,7 @@ import com.lhk.library.PullLoadMoreRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.PullLoadMoreListener {
+public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.PullActionListener {
 
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
     private int mCount = 1;
@@ -38,11 +38,10 @@ public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.
         //设置下拉刷新是否可见
         //mPullLoadMoreRecyclerView.setRefreshing(true);
         //设置是否可以下拉刷新
-        //mPullLoadMoreRecyclerView.setPullRefreshEnable(true);
+        //mPullLoadMoreRecyclerView.setPullRefreshEnable(false);
         //设置是否可以上拉刷新
-        //mPullLoadMoreRecyclerView.setPushRefreshEnable(false);
-        //显示下拉刷新
-        mPullLoadMoreRecyclerView.setRefreshing(true);
+        //mPullLoadMoreRecyclerView.setPullLoadMoreEnable(false);
+
         //设置上拉刷新文字
         mPullLoadMoreRecyclerView.setFooterViewText("loading");
         //设置上拉刷新文字颜色
@@ -51,7 +50,7 @@ public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.
         mPullLoadMoreRecyclerView.setFooterViewBackgroundColor(R.color.colorBackground);
         mPullLoadMoreRecyclerView.setLinearLayout();
 
-        mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(this);
+        mPullLoadMoreRecyclerView.setOnPullActionListener(this);
         //setEmptyView，演示空数据，可以提示“数据加载中”
         mPullLoadMoreRecyclerView.setEmptyView(LayoutInflater.from(getContext()).inflate(R.layout.empty_view, null));
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity());
@@ -67,7 +66,7 @@ public class FirstFragment extends Fragment implements PullLoadMoreRecyclerView.
                     @Override
                     public void run() {
                         mRecyclerViewAdapter.addAllData(setList());
-                        mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+                        mPullLoadMoreRecyclerView.setPullActionCompleted();
                     }
                 });
 

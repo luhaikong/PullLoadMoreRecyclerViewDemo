@@ -40,7 +40,7 @@ public class ThirdFragment extends Fragment {
         mPullLoadMoreRecyclerView.setStaggeredGridLayout(2);
         mRecyclerViewAdapter = new StaggeredRecycleViewAdapter(getActivity(), setList());
         mPullLoadMoreRecyclerView.setAdapter(mRecyclerViewAdapter);
-        mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreListener());
+        mPullLoadMoreRecyclerView.setOnPullActionListener(new MyPullActionListener());
     }
 
     private List<Map<String, String>> setList() {
@@ -64,12 +64,12 @@ public class ThirdFragment extends Fragment {
             public void run() {
                 mRecyclerViewAdapter.getDataList().addAll(setList());
                 mRecyclerViewAdapter.notifyDataSetChanged();
-                mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+                mPullLoadMoreRecyclerView.setPullActionCompleted();
             }
         }, 1000);
     }
 
-    class PullLoadMoreListener implements PullLoadMoreRecyclerView.PullLoadMoreListener {
+    class MyPullActionListener implements PullLoadMoreRecyclerView.PullActionListener {
         @Override
         public void onRefresh() {
             setRefresh();
