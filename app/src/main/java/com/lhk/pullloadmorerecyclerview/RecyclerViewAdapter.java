@@ -21,6 +21,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
+    public void setDataList(List<String> data){
+        this.dataList = data;
+    }
+
     public void clearData() {
         this.dataList.clear();
     }
